@@ -1,47 +1,47 @@
+/*
+ * in-place merge sorting
+ */
 public class MergeSort {
 
     private int[] numbers;
-    private int[] temp;
 
-    public int[] sort(int[] numbers) {
-        this.numbers = numbers;
-        temp = new int[numbers.length];
-        mergeSort(0, numbers.length - 1);
+    public int[] sort(int[] array) {
+        numbers = array;
+        mergeSort(numbers, 0, numbers.length - 1);
         return numbers;
     }
 
-    private void mergeSort(int low, int high) {
-        if (low < high) {
-            int middle = low + (high - low) / 2;
-            mergeSort(low, middle);
-            mergeSort(middle + 1, high);
-            merge(low, middle, high);
-        }
-    }
+    private void mergeSort(int[] array, int first, int last) {
+        int middle;
+        int leftPartPosition;
+        int rightPartPosition;
+        int temp;
 
-    private void merge(int low, int middle, int high) {
-        for (int i = low; i <= high; i++) {
-            temp[i] = numbers[i];
-        }
-        int leftPartPosition = low;
-        int rightPartPosition = middle + 1;
-        int currentPosition = low;
+        if (first >= last) return;
 
-        while (leftPartPosition <= middle && rightPartPosition <= high) {
-            if (temp[leftPartPosition] <= temp[rightPartPosition]) {
-                numbers[currentPosition] = temp[leftPartPosition];
+        middle = (first + last) / 2;
+
+        mergeSort(array, first, middle);
+        mergeSort(array, middle + 1, last);
+
+        leftPartPosition = first;
+        rightPartPosition = middle + 1;
+
+        if (array[middle] <= array[rightPartPosition])
+            return;
+
+        while (leftPartPosition <= middle && rightPartPosition <= last) {
+
+            if (array[leftPartPosition] <= array[rightPartPosition]) {
                 leftPartPosition++;
             } else {
-                numbers[currentPosition] = temp[rightPartPosition];
+                temp = array[rightPartPosition];
+                System.arraycopy(array, leftPartPosition, array, leftPartPosition + 1, rightPartPosition - leftPartPosition);
+                array[leftPartPosition] = temp;
+                leftPartPosition++;
+                middle++;
                 rightPartPosition++;
             }
-            currentPosition++;
-        }
-
-        while (leftPartPosition <= middle) {
-            numbers[currentPosition] = temp[leftPartPosition];
-            currentPosition++;
-            leftPartPosition++;
         }
     }
 }
