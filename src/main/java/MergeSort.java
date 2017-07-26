@@ -36,12 +36,21 @@ public class MergeSort {
                 leftPartPosition++;
             } else {
                 temp = array[rightPartPosition];
-                System.arraycopy(array, leftPartPosition, array, leftPartPosition + 1, rightPartPosition - leftPartPosition);
+                arraycopy(array, leftPartPosition, leftPartPosition + 1,
+                        rightPartPosition - leftPartPosition);
                 array[leftPartPosition] = temp;
                 leftPartPosition++;
                 middle++;
                 rightPartPosition++;
             }
         }
+    }
+
+    private void arraycopy(int[] array, int initPos, int destPos, int number) {
+        int shift = number - 1;
+        for (int i = destPos + shift, j = shift; i >= destPos; i--, j--){
+            array[i] = array[initPos + j];
+        }
+
     }
 }
